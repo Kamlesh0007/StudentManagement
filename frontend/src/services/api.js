@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_BASE = import.meta.VITE_API_URL || 'http://localhost:5001/api';
+export const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 const SERVER_BASE = API_BASE.replace(/\/api\/?$/, '');
 
 export const getImageUrl = (photoPath) => {
