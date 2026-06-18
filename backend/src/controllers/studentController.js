@@ -1,7 +1,5 @@
 import pool from '../config/db.js';
 import { validationResult } from 'express-validator';
-import fs from 'fs';
-import path from 'path';
 
 // Helper: log activity
 const logActivity = async (action, student, details = {}) => {
@@ -133,7 +131,9 @@ export const createStudent = async (req, res) => {
 
   try {
     const { name, email, mobile_number, date_of_birth, gender, course, year, address } = req.body;
-    const photo_url = req.file ? `/uploads/${req.file.filename}` : null;
+const photo_url = req.file
+  ? req.file.path
+  : null;
 
     // Generate unique admission number
     const admResult = await pool.query('SELECT generate_admission_number() as adm_num');
@@ -175,20 +175,13 @@ export const updateStudent = async (req, res) => {
     // Get existing student
     const existing = await pool.query('SELECT * FROM students WHERE id = $1', [id]);
     if (existing.rows.length === 0) {
-      if (req.file) fs.unlinkSync(req.file.path);
+
       return res.status(404).json({ success: false, message: 'Student not found' });
     }
 
-    // Handle photo update
-    let photo_url = existing.rows[0].photo_url;
-    if (req.file) {
-      // Delete old photo if exists
-      if (photo_url) {
-        const oldPath = path.join(process.cwd(), photo_url);
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-      }
-      photo_url = `/uploads/${req.file.filename}`;
-    }
+if (req.file) {
+  photo_url = req.file.path;
+}
 
     const result = await pool.query(
       `UPDATE students SET name=$1, email=$2, mobile_number=$3, date_of_birth=$4,
@@ -223,11 +216,7 @@ export const deleteStudent = async (req, res) => {
 
     const student = existing.rows[0];
 
-    // Delete photo file
-    if (student.photo_url) {
-      const photoPath = path.join(process.cwd(), student.photo_url);
-      if (fs.existsSync(photoPath)) fs.unlinkSync(photoPath);
-    }
+    
 
     await pool.query('DELETE FROM students WHERE id = $1', [id]);
     await logActivity('DELETE', student);
