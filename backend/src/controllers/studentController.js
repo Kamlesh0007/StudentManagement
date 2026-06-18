@@ -125,7 +125,6 @@ export const getStudentById = async (req, res) => {
 export const createStudent = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    if (req.file) fs.unlinkSync(req.file.path);
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
@@ -151,7 +150,7 @@ const photo_url = req.file
 
     res.status(201).json({ success: true, data: student, message: 'Student added successfully' });
   } catch (err) {
-    if (req.file) fs.unlinkSync(req.file.path);
+
     if (err.code === '23505') {
       return res.status(409).json({ success: false, message: 'Email already registered' });
     }
@@ -164,7 +163,7 @@ const photo_url = req.file
 export const updateStudent = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    if (req.file) fs.unlinkSync(req.file.path);
+   
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
@@ -178,7 +177,7 @@ export const updateStudent = async (req, res) => {
 
       return res.status(404).json({ success: false, message: 'Student not found' });
     }
-
+let photo_url = existing.rows[0].photo_url;
 if (req.file) {
   photo_url = req.file.path;
 }
@@ -195,7 +194,6 @@ if (req.file) {
 
     res.json({ success: true, data: student, message: 'Student updated successfully' });
   } catch (err) {
-    if (req.file) fs.unlinkSync(req.file.path);
     if (err.code === '23505') {
       return res.status(409).json({ success: false, message: 'Email already in use by another student' });
     }
