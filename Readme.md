@@ -60,45 +60,60 @@ A full-stack web application for managing student records, built with React, Nod
 ## 📁 Project Structure
 
 ```
-student-management/
+```text
+StudentManagement/
+│
 ├── backend/
 │   ├── src/
 │   │   ├── config/
-│   │   │   └── database.js        # PostgreSQL connection pool
-│   │   │ 
+│   │   │   ├── db.js
+│   │   │   └── schema.sql
 │   │   ├── controllers/
 │   │   │   └── studentController.js
-│   │   ├── middleware/
-│   │   │   ├── validation.js      # express-validator rules
-│   │   │   └── upload.js          # Multer config for photo upload
-│   │   ├── routes/
-│   │   │   └── studentRoutes.js
-│   │   └── index.js               # Express app entry point
-│   ├── uploads/                   # Uploaded student photos
-│   ├── .gitignore
-│   └── package.json
+│   │   ├── middlewares/
+│   │   │   ├── upload.js
+│   │   │   └── validation.js
+│   │   └── routes/
+│   │       └── studentRoutes.js
+│   ├── .env.example
+│   ├── package.json
+│   ├── package-lock.json
+│   └── server.js
 │
 ├── frontend/
-│   │── index.html   
+│   ├── public/
 │   ├── src/
+│   │   ├── assets/
 │   │   ├── components/
-│   │   │   └── Layout.js          # Sidebar + topbar shell
+│   │   │   └── Layout/
+│   │   │       ├── Header.jsx
+│   │   │       ├── Sidebar.jsx
+│   │   │       ├── Footer.jsx
+│   │   │       ├── Overlay.jsx
+│   │   │       └── Layout.jsx
 │   │   ├── pages/
-│   │   │   ├── Dashboard.js       # Analytics dashboard
-│   │   │   ├── StudentList.js     # List, search, filter, paginate
-│   │   │   ├── AddStudent.js      # Add student form
-│   │   │   ├── EditStudent.js     # Edit student form
-│   │   │   ├── StudentDetail.js   # Single student view
-│   │   │   └── ActivityLogs.js    # Activity log table
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── StudentList.jsx
+│   │   │   ├── AddStudent.jsx
+│   │   │   ├── EditStudent.jsx
+│   │   │   ├── StudentDetail.jsx
+│   │   │   └── ActivityLogs.jsx
 │   │   ├── services/
-│   │   │   └── api.js             # Axios API client
-│   │   ├── App.js                 # Routes
-│   │   └── index.js               
+│   │   │   └── api.js
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
 │   ├── .env.example
 │   ├── .gitignore
-│   └── package.json
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   └── package-lock.json
 │
+├── .gitignore
 └── README.md
+```
+
 ```
 
 ---
@@ -258,15 +273,30 @@ Working `.env` files are already included in `backend/` and `frontend/` so the p
 
 **backend/.env**
 ```
-DB_HOST=localhost
+Environment Variables
+
+Create a .env file in the root directory and add the following variables:
+
+# Database Configuration
+DB_HOST=your_database_host
 DB_PORT=5432
-DB_NAME=student_management
-DB_USER=postgres
-DB_PASSWORD=postgres123
-PORT=5000
+DB_NAME=your_database_name
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+
+# Server Configuration
+PORT=5001
 NODE_ENV=development
-UPLOAD_DIR=uploads
+
+# Cloudinary Configuration
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# File Upload
 MAX_FILE_SIZE=5242880
+
+# Frontend URL (for CORS)
 FRONTEND_URL=http://localhost:5173
 ```
 
@@ -295,11 +325,6 @@ All rules are enforced on both the **frontend** (instant feedback) and **backend
 
 ---
 
-## 📸 Screenshots
-
-> Add screenshots of the Dashboard, Student List, Add/Edit forms, and Student Detail page here after deployment.
-
----
 
 ## 🚀 Deployment Notes
 
