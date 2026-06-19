@@ -60,7 +60,6 @@ A full-stack web application for managing student records, built with React, Nod
 ## 📁 Project Structure
 
 ```
-```text
 StudentManagement/
 │
 ├── backend/
@@ -112,7 +111,6 @@ StudentManagement/
 │
 ├── .gitignore
 └── README.md
-```
 
 ```
 
