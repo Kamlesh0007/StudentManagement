@@ -10,7 +10,7 @@ lerna-debug.log*
 backend/uploads/*
 !backend/uploads/.gitkeep
 
-
+.env
 node_modules
 dist
 dist-ssr
